@@ -1,5 +1,95 @@
-public class HelloWorld {
-    public static void main(String[] args) {
-        System.out.println("Hello, World!");
-    }
-}
+包装试验；
+
+ 导入java.io.BufferedReader；
+ 导入java.io.FileReader；
+ 导入java.io.IOException；
+导入java.util.*；
+
+公共类SubwayMap {
+private Map<String ,Map<String ,Double>> map;
+
+公共地铁地图（） {
+this.map = new LinkedHashMap<>();
+ }
+
+public void addLine（字符串lineName） {
+ map.put（lineName ,new LinkedHashMap<>());
+ }
+
+ public void addStation（字符串lineName , 字符串stationName ,双倍距离） {
+ map.get（lineName）.put（stationName ,距离）；
+ }
+
+public double getDistance（字符串lineName ,字符串站1 ,字符串站2） {
+return-map.get（lineName）.get（station1）map.get（ineName）.got（station2）；
+ }
+public Set<String> getTransferStations() {
+Map<String ,Set<String>> stationLines = new HashMap<>();
+for（字符串行 : map.keySet（）） {
+用于（字符串站 :map.get（line）.keySet（）） {
+stationLines.putIfAbsent（车站 ,new HashSet<>());
+stationLines.get（station）.add（line）；
+ }
+ }
+
+Set<String> transferStations = new HashSet<>();
+用于（字符串站 :stationLines.keySet（）） {
+if（stationLines.get（station）.size（）&#62;1） {
+StringBuilder sb = new StringBuilder();
+sb.附件("<").append（电台）.append(", <" );
+for（字符串行 :stationLines.get（站） {
+某人追加（行）追加( &#34;Line marking,&#34; );
+ }
+sb.setLength（sb.length（）-1）；
+sb.附件(">>" );
+transferStations.add（sb.toString（））；
+ }
+ }
+
+返回中转站；
+ }
+
+
+@覆盖
+公共字符串toString（） {
+return this.map.values（）.toString（）；
+ }
+
+
+公共静态void main（String [ ] 参数） {
+SubwayMap subwayMap = new SubwayMap();
+
+
+try (BufferedReader br = new BufferedReader(new FileReader(“C:\\Users\\28560\\Desktop\\subway.txt” ))) {
+字符串；
+String currentLine = null;
+while ((line = br.readLine()) != null) {
+如果（line.contains( &#34;Line No. station spacing&#34; )) {
+currentLine = line.split( &#34;Line No. station spacing&#34; ) [ zero ] ;
+subwayMap.addLine（currentLine）；
+ }否则，如果（line.contains( &#34;---&#34;)||line.contains包含( &#34;—&#34; )) {
+String separator = line.contains("---") ? "---" : &#34;—&#34; ;
+字符串 [ ]parts = line.split(separator);
+String station1 = parts [ zero ].trim（）；
+
+String station2 = parts [ one ].拆分( &#34;\t&#34; ) [ zero ].trim（）；
+double distance = Double.parseDouble(parts [ one ].拆分( &#34;\t&#34; ) [ one ].trim（））；
+ subwayMap.addStation（当前线路） ,车站1 ,距离）；
+ subwayMap.addStation（当前线路） ,车站2 ,距离）；
+ }
+
+
+ }
+ } 捕获（IOException e） {
+ e.printStackTrace（）；
+ }
+System.out.println（subwayMap）；
+Set<String> transferStations = subwayMap.getTransferStations();
+系统输出打印(“中转站：” );
+用于（字符串站 :转移站） {
+System.out.println（站点）；
+ }
+
+
+ }
+ }
